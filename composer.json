@@ -1,5 +1,5 @@
 {
-    "name": "samarija/garmin-connect",
+    "name": "samarija/garmin-client",
     "description": "PHP Library to Access Garmin Connect",
     "type": "library",
     "require": {
@@ -14,7 +14,7 @@
     },
     "authors": [
         {
-            "name": "samarija",
+            "name": "Robert Samarija",
             "email": "robert@samarija.com"
         }
     ],
