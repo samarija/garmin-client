@@ -1,0 +1,22 @@
+{
+    "name": "samarija/garmin-connect",
+    "description": "PHP Library to Access Garmin Connect",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^7.8",
+        "illuminate/collections": "^11.0",
+        "nesbot/carbon": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Garmin\\": "src/Garmin"
+        }
+    },
+    "authors": [
+        {
+            "name": "samarija",
+            "email": "robert@samarija.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
