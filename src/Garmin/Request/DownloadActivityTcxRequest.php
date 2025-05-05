@@ -1,0 +1,33 @@
+<?php
+
+namespace Samarija\Garmin\Request;
+
+use GuzzleHttp\Psr7\Request;
+use Samarija\Garmin\Http\GarminConstants;
+use Samarija\Garmin\Http\Method;
+use Samarija\Garmin\Http\Uri;
+
+class DownloadActivityTcxRequest extends Request
+{
+    public function __construct(string $token, string $activityId)
+    {
+        parent::__construct(
+            Method::GET->value,
+            new Uri(GarminConstants::CONNECT_BASE_URL.'/download-service/export/tcx/activity/'.$activityId),
+            [
+                'NK' => 'NT',
+                'X-app-ver' => '4.76.0.17',
+                'X-lang' => 'nl-NL',
+                'DI-Backend' => 'connectapi.garmin.com',
+                'DNT' => '1',
+                'Sec-GPC' => '1',
+                'Connection' => 'keep-alive',
+                'Referer' => GarminConstants::CONNECT_MODERN_URL.'/activity/'.$activityId,
+                'Pragma' => 'no-cache',
+                'Cache-Control' => 'no-cache',
+                'TE' => 'trailers',
+                'Authorization' => sprintf('Bearer %s', $token),
+            ]
+        );
+    }
+}

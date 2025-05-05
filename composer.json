@@ -9,7 +9,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Garmin\\": "src/Garmin"
+            "Samarija\\Garmin\\": "src/Garmin"
         }
     },
     "authors": [
