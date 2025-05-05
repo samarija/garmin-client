@@ -9,7 +9,7 @@ use Samarija\Garmin\Http\Uri;
 
 class RetrieveActivitiesRequest extends Request
 {
-    public function __construct($token, int $start = 0, int $limit = 20, ?\DateTimeImmutable $startDate = null, ?\DateTimeImmutable $endDate = null, string $sortby = 'startLocal', string $sortOrder = 'asc')
+    public function __construct($token, int $start = 0, int $limit = 20, ?\DateTimeImmutable $startDate = null, ?\DateTimeImmutable $endDate = null, string $sortby = 'startLocal', string $sortOrder = 'asc', string|null $activityType = null)
     {
         $params = [
             'limit' => $limit,
@@ -24,6 +24,10 @@ class RetrieveActivitiesRequest extends Request
 
         if ($endDate !== null) {
             $params['endDate'] = $endDate->format('Y-m-d');
+        }
+
+        if ($activityType !== null) {
+            $params['activityType'] = $activityType;
         }
 
         parent::__construct(
