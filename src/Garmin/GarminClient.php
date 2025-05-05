@@ -39,22 +39,44 @@ class GarminClient
 {
     private Client $client;
 
-    private $l_client;
-
     private string $username;
 
     private string $password;
 
     private string $cookieDir = '';
 
-    private string $cookieFile = '';
+    private string $cookieFile = 'cookie_jar.txt';
 
-    private Http\AccessToken $accessToken;
+    private http\AccessToken $accessToken;
 
-    public function __construct(string $cookiePath = 'cookie_jar.txt')
+    public function __construct() {}
+
+    public function username(string $username): self
     {
-        $cookieJar = new FileCookieJar($cookiePath, true);
-        $this->client = new Client(['cookies' => $cookieJar,  'verify' => false]);
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function password(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function cookieFile(string $filename): self
+    {
+        $this->cookieFile = $filename;
+
+        return $this;
+    }
+
+    public function cookieJarLocation(string $path): self
+    {
+        $this->cookieDir = $path;
+
+        return $this;
     }
 
     /**
@@ -62,8 +84,9 @@ class GarminClient
      * @throws GuzzleException
      * @throws Exception
      */
-    public function login(string $username, string $password): self
+    public function login(): self
     {
+        $this->initClient();
         $response = $this->client->send(new SetCookieRequest);
 
         if ($response->getStatusCode() !== 200) {
@@ -77,8 +100,8 @@ class GarminClient
             $this->client
                 ->sendRequest(
                     new LoginRequest(
-                        $username,
-                        $password,
+                        $this->username,
+                        $this->password,
                         $csrfToken
                     )
                 )
@@ -102,7 +125,7 @@ class GarminClient
 
         return $this;
     }
-    
+
     private function initClient(): void
     {
         $cookiePath = $this->cookieFile;
@@ -112,9 +135,7 @@ class GarminClient
         }
 
         $cookieJar = new FileCookieJar($cookiePath, true);
-
         if (! isset($this->client)) {
-            // $this->client = Facades\Http::withOptions(['cookies' => $cookieJar, 'verify' => false]);
             $this->client = new Client(['cookies' => $cookieJar,  'verify' => false]);
         }
     }
